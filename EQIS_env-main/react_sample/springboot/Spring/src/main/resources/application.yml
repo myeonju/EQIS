@@ -1,0 +1,57 @@
+server:
+  port: 8000
+  max-http-header-size: 30000
+  
+spring:  
+  profiles:
+    active:
+    - local
+    - dev
+    - prod
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 10240MB
+      location: /wasapp/sample/upload
+      
+  # swagger
+  #mvc:
+  #  pathmatch:
+  #    matching-strategy: ant-path-matcher
+  
+logging:
+  file:
+    path: C:/dev/react_sample/DES/spring/logs/
+    name: testFile
+# level:
+#    org.hibernate.type.descriptor.sql: trace
+  #spring boot 2.4 modify
+  logback:
+    rollingpolicy:
+      max-file-size: 30MB
+      max-history: 60
+      
+jwt:
+  secretKey: 20230101sampl
+  tokenName: sampltoken
+  
+lang:
+  codeName: lang-cd
+  
+interface:
+  ip:
+    white_list: 192.168.0.*, 192.168.1.*
+    
+html:
+  aes: 
+    secretKey: 72908309218390819023808120938
+    
+drm:
+  key:
+    localPath: classpath:drm/key30DAC.sc
+  config:
+    localPath: classpath:drm/drm-config.properties
+  authCode: 111001100
+  delDt: 0
+  readCnt: 0
+  printCnt: 0      

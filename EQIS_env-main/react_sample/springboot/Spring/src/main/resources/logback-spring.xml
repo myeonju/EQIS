@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- console로 log 남기기 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>▶%highlight(%-5level) %d{HH:mm:ss.SSS} [%thread] %boldCyan(%logger)[%method:%line] - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- file로 log 남기기 - 날짜 및 사이즈별 -->
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/${LOG_FILE}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- 날짜별로 로그파일 적용하기 -->
+			<fileNamePattern>${LOG_PATH}/${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<!-- 보관기간 %d{yyyy-MM-dd-hh} 60시간 후 삭제, %d{yyyy-MM-dd} 60일 후 삭제 -->
+			<maxHistory>${LOG_FILE_MAX_HISTORY:-0}</maxHistory>
+			<maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%-5level %d{HH:mm:ss} %logger[%method:%line] - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- local 환경 -->
+	<springProfile name="local">
+		<!-- root는 전체를 대상으로 한다 -->
+		<root level="info">
+			<appender-ref ref="console" />
+		</root>
+		<!-- 패키지별로 레벨과 출력방햐애을 조정가능 
+			name: 패키지명
+			additivity : 상위 Logger로부터의 상속 여부를 의미 default : true
+		-->
+		<logger name="eone" level="debug" additivity="false">
+			<appender-ref ref="console" />
+		</logger>
+	</springProfile>
+	
+	<!-- dev, prod, test 환경 -->
+	<springProfile name="dev,prod,test">
+		<root level="info">
+			<appender-ref ref="console" />
+			<appender-ref ref="file" />
+		</root>
+		
+		<logger name="eone" level="debug" additivit="false">
+			<appender-ref ref="console" />
+		</logger>
+		
+		<logger name="jdbc" level="off" />
+		<logger name="jdbc.sqlonly" level="debug" additivity="false">
+			<appender-ref ref="console" />
+		</logger>
+		<logger name="jdbc.sqltiming" level="off" />
+		<logger name="jdbc.audit" level="off" />
+		<logger name="jdbc.resulttest" level="off" />
+	</springProfile>
+</configuration>

@@ -1,0 +1,118 @@
+{
+    "data": {
+        "Menu": [
+            {
+                "scrnNm": "나의 할일",
+                "subMenu": [
+                    {
+                        "scrnNm": "부서 수신함",
+                        "pathId": "/todo/department"
+                    },
+                    {
+                        "scrnNm": "개인 수신함",
+                        "pathId": "/todo/personal"
+                    }
+                ]
+            },
+            {
+                "scrnNm": "안전품질신문고",
+                "subMenu": [
+                    {
+                        "scrnNm": "신문고 제보",
+                        "pathId": "/dfs/report"
+                    },
+                    {
+                        "scrnNm": "신문고 제보 내역",
+                        "pathId": "/dfs/list"
+                    },
+                    {
+                        "scrnNm": "신문고 종합 현황",
+                        "pathId": "/dfs/status"
+                    }
+                ]
+            },
+            {
+                "scrnNm": "안전이슈관리",
+                "subMenu": [
+                    {
+                        "scrnNm": "목록 (안전이슈관리)",
+                        "pathId": "/sims/list"
+                    },
+                    {
+                        "scrnNm": "워크시트 (북미이슈제기)",
+                        "pathId": "/sims/nain/worksheet"
+                    },
+                    {
+                        "scrnNm": "목록 (북미이슈제기)",
+                        "pathId": "/sims/nain/list"
+                    },
+                    {
+                        "scrnNm": "현황 (안전이슈관리)",
+                        "pathId": "/sims/status"
+                    },
+                    {
+                        "scrnNm": "HMA 현황",
+                        "pathId": "/sims/hma/status"
+                    },
+                    {
+                        "scrnNm": "KUS 현황",
+                        "pathId": "/sims/kus/status"
+                    }
+                ]
+            },
+            {
+                "scrnNm": "안전연관정보조회",
+                "subMenu": [
+                    {
+                        "scrnNm": "Global QIR",
+                        "pathId": "/srils/qir"
+                    },
+                    {
+                        "scrnNm": "Global Claim",
+                        "pathId": "/srils/claim"
+                    },
+                    {
+                        "scrnNm": "Field Action(TSB)",
+                        "pathId": "/srils/tsb"
+                    },
+                    {
+                        "scrnNm": "안전부품 정보",
+                        "pathId": "/srils/safetypart"
+                    },
+                    {
+                        "scrnNm": "공용부품 정보",
+                        "pathId": "/srils/commonpart"
+                    },
+                    {
+                        "scrnNm": "체결보증 정보",
+                        "pathId": "/srils/conclusion"
+                    }
+                ]
+            },
+            {
+                "scrnNm": "기준정보",
+                "subMenu": [
+                    {
+                        "scrnNm": "공통코드",
+                        "pathId": "/standard/commoncode"
+                    },
+                    {
+                        "scrnNm": "다국어",
+                        "pathId": "/standard/lang"
+                    },
+                    {
+                        "scrnNm": "공시사항",
+                        "pathId": "/standard/notice"
+                    }
+                    ,
+                    {
+                        "scrnNm": "컴포넌트",
+                        "pathId": "/standard/componentCollection"
+                    }
+                ]
+            }
+        ]
+    },
+    "message": "Success",
+    "time": "2022-04-28 16:20:04" 
+}

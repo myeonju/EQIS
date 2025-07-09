@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<!-- 
+	Description : MyBatis 설정파일
+	author : attos 
+ -->  
+  
+<configuration>
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />	<!-- 카멜케이스 적용 -->
+	</settings>
+	
+	<!-- Entity alias 지정 -->
+	<typeAliases>
+	
+		<!-- code -->
+		<typeAlias type="com.sample.basic.sample.code.model.LangComCdP" alias="langComCdP" />
+		
+		
+	</typeAliases>
+</configuration>
