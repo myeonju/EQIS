@@ -156,17 +156,14 @@ const Grid = (props: Iprops) => {
                     hide: props.hides && props.hides[index],
                     cellStyle: (params) =>
                         props.cellStyleSelector ? props.cellStyleSelector(field, params.data) : null,
-                    cellRenderer: (params) => {
-                        const button = props.buttons?.[index];
-
-                        return renderer(
+                    cellRenderer: (params) =>
+                        renderer(
                             params,
-                            button?.label,
-                            button?.clickEvent,
-                            props.linkSelector?.(field, params.data),
-                            props.downloadLinkSelector?.(field, params.data),
-                        );
-                    },
+                            props.buttons && props.buttons[index]?.label,
+                            props.buttons && props.buttons[index]?.clickEvent,
+                            props.linkSelector && props.linkSelector(field, params.data),
+                            props.downloadLinkSelector && props.downloadLinkSelector(field, params.data),
+                        ),
                 };
 
                 return columnDef;

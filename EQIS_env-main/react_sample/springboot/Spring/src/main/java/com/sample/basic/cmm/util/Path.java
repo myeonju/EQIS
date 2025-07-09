@@ -31,6 +31,8 @@ public class Path {
 	
 	public static final String SAVE_RDCOMMENTATTCFILE = "/save_rdcommentAttcFile.do";
 	public static final String DELETE_RDCOMMENTATTCFILE = "/delete_rdcommentAttcFile.do";
+	
+	public static final String DOWNLOAD_EXCEL = "/notice_excel_down.do";
 		
 	// Save
 	public static final String SAVE = "/save.do";

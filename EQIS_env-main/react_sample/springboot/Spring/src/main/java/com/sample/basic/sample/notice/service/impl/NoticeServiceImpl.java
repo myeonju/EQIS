@@ -1,6 +1,10 @@
 package com.sample.basic.sample.notice.service.impl;
 
 import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,9 +13,8 @@ import com.sample.basic.cmm.exception.CustomException;
 import com.sample.basic.cmm.exception.model.ExceptionCode;
 import com.sample.basic.cmm.model.Page;
 import com.sample.basic.cmm.provider.JwtProvider;
-import com.sample.basic.sample.code.entity.MlgMsgBEntity;
-import com.sample.basic.sample.code.mapper.MlgMsgBMapper;
-import com.sample.basic.sample.code.model.MlgMsgB;
+import com.sample.basic.sample.file.handler.FileHandler;
+import com.sample.basic.sample.file.model.RegisterExcel;
 import com.sample.basic.sample.notice.entity.PwiImtrBEntity;
 import com.sample.basic.sample.notice.mapper.PwiImtrBMapper;
 import com.sample.basic.sample.notice.model.NoticeHome;
@@ -44,14 +47,36 @@ public class NoticeServiceImpl implements NoticeService {
 		
 	@Autowired
 	private JwtProvider jwtProvider;
+	
+	private static FileHandler fileHandler;
 
 	@Override
 	public Page<NoticeListGrid> listGridSearch(NoticeListSearch noticeListSearch) {
-		// 데이터 조회
 		Page<NoticeListGrid> resNoticeListGridPage = pwiImtrBQueryRepository.findPageOfListGrid(noticeListSearch);
 		
 		// 결과 반환
 		return resNoticeListGridPage;
+	}
+	
+	@Override
+	public List<NoticeListGrid> excelListSearch(NoticeListSearch noticeListSearch, HttpServletResponse response) {
+		List<NoticeListGrid> resExcelList = pwiImtrBQueryRepository.findWholeListGrid(noticeListSearch);
+		
+		List<String> headerList = new ArrayList<String>();
+		headerList.add("No.");
+		headerList.add("제목");
+		headerList.add("내용");
+		headerList.add("팝업시작일시");
+		headerList.add("팝업종료일시");
+		// 엑셀파일 생성
+		try {
+			
+			fileHandler.downloadExcel(headerList, resExcelList, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@Override

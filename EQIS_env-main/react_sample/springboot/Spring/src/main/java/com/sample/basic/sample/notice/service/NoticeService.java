@@ -2,6 +2,8 @@ package com.sample.basic.sample.notice.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.sample.basic.cmm.model.Page;
 import com.sample.basic.sample.notice.model.NoticeHome;
 import com.sample.basic.sample.notice.model.NoticeListGrid;
@@ -23,6 +25,9 @@ public interface NoticeService {
 
 	// grid 목록 조회
 	public Page<NoticeListGrid> listGridSearch(NoticeListSearch noticeListSearch);
+	
+	// 엑셀용 전체 목록 조회
+	public List<NoticeListGrid> excelListSearch(NoticeListSearch noticeListSearch, HttpServletResponse response);
 	
 	// home 목록 조회
 	public List<NoticeHome> homeListSearch(int limit);

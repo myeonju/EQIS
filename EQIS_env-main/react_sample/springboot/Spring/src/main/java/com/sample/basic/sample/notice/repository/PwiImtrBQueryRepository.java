@@ -49,12 +49,6 @@ public class PwiImtrBQueryRepository {
 			    pwiImtrBEntity.pwiImtrNo,
 			    pwiImtrBEntity.titlNm,
 			    pwiImtrBEntity.pwiImtrSbc,
-			    Expressions.stringTemplate("function('GET_LANG_COM_CD_NM', {0}, {1}, {2})",
-			        "USE_YN", pwiImtrBEntity.pwiYn, lang.getLangCd()).as("pwiNm"),
-			    Expressions.stringTemplate("function('GET_LANG_COM_CD_NM', {0}, {1}, {2})",
-			        "USE_YN", pwiImtrBEntity.supiFxgYn, lang.getLangCd()).as("supiFxgNm"),
-			    Expressions.stringTemplate("function('GET_LANG_COM_CD_NM', {0}, {1}, {2})",
-			        "USE_YN", pwiImtrBEntity.popuYn, lang.getLangCd()).as("popuNm"),
 			    pwiImtrBEntity.popuStrDtm,
 			    pwiImtrBEntity.popuFnhDtm
 			))
@@ -66,21 +60,35 @@ public class PwiImtrBQueryRepository {
 			.where(eqPopuYn(noticeListSearch.getPopuYn()))
 			.where(pwiImtrBEntity.useYn.eq("Y"))
 			.orderBy(pwiImtrBEntity.pwiImtrNo.desc())
-			.offset((noticeListSearch.getPage() - 1) * noticeListSearch.getLimit())  
 			.limit(noticeListSearch.getLimit())
 			.fetch();
 																	
-		long totalCount = jpaQueryFactory.select(pwiImtrBEntity.count())
-										 .from(pwiImtrBEntity)
-										 .where(containsIgnoreCaseTitlNm(noticeListSearch.getTitlNm()))
-										 .where(containsIgnoreCasePwiImtrSbc(noticeListSearch.getPwiImtrSbc()))
-										 .where(eqPwiYn(noticeListSearch.getPwiYn()))
-										 .where(eqSupiFxgYn(noticeListSearch.getSupiFxgYn()))
-										 .where(eqPopuYn(noticeListSearch.getPopuYn()))
-										 .where(pwiImtrBEntity.useYn.eq("Y"))
-										 .fetchOne();
+		long totalCount = 100;
 		
-		return new Page<>(resNoticeListGridList, totalCount, noticeListSearch.getPage(), noticeListSearch.getLimit());
+		return new Page<>(resNoticeListGridList, totalCount, 10, 10);
+	}
+	
+	public List<NoticeListGrid> findWholeListGrid(NoticeListSearch noticeListSearch) {
+		List<NoticeListGrid> resNoticeListGridList = jpaQueryFactory.select(Projections.fields(
+			    NoticeListGrid.class,
+			    pwiImtrBEntity.pwiImtrNo,
+			    pwiImtrBEntity.titlNm,
+			    pwiImtrBEntity.pwiImtrSbc,
+			    pwiImtrBEntity.popuStrDtm,
+			    pwiImtrBEntity.popuFnhDtm
+			))
+			.from(pwiImtrBEntity)
+			.where(containsIgnoreCaseTitlNm(noticeListSearch.getTitlNm()))
+			.where(containsIgnoreCasePwiImtrSbc(noticeListSearch.getPwiImtrSbc()))
+			.where(eqPwiYn(noticeListSearch.getPwiYn()))
+			.where(eqSupiFxgYn(noticeListSearch.getSupiFxgYn()))
+			.where(eqPopuYn(noticeListSearch.getPopuYn()))
+			.where(pwiImtrBEntity.useYn.eq("Y"))
+			.orderBy(pwiImtrBEntity.pwiImtrNo.desc())
+			.fetch();
+																	
+		
+		return resNoticeListGridList;
 	}
 	
 	public List<NoticeHome> findOfHomeList(int limit) {

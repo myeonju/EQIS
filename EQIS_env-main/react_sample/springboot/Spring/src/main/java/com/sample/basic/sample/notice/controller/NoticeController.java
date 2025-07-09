@@ -2,10 +2,9 @@ package com.sample.basic.sample.notice.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sample.basic.cmm.model.Page;
 import com.sample.basic.cmm.model.Response;
 import com.sample.basic.cmm.util.Constant;
-import com.sample.basic.cmm.util.Function;
 import com.sample.basic.cmm.util.Path;
 import com.sample.basic.cmm.util.ResponseHandler;
-import com.sample.basic.sample.code.model.CommonCodeDetailSearch;
-import com.sample.basic.sample.code.model.CommonCodeListGrid;
-import com.sample.basic.sample.code.model.CommonCodeListSearch;
-import com.sample.basic.sample.code.model.LangComCdP;
-import com.sample.basic.sample.code.service.CommonCodeService;
 import com.sample.basic.sample.notice.model.NoticeHome;
 import com.sample.basic.sample.notice.model.NoticeListGrid;
 import com.sample.basic.sample.notice.model.NoticeListSearch;
@@ -127,6 +120,17 @@ public class NoticeController {
 		
 		// 결과 반환
 		return responseHandler.response(null, Constant.RESPONSE_REGISTER, HttpStatus.OK);
+	}
+	
+	@PostMapping(Path.DOWNLOAD_EXCEL)
+	public ResponseEntity<Response> downloadExcel(NoticeListSearch noticeListSearch, HttpServletResponse response) {
+		System.out.println("@@데이터 조회: " + noticeListSearch);
+		// 데이터 조회
+		noticeService.excelListSearch(noticeListSearch, response);
+		
+		
+		// 결과 반환
+		return responseHandler.response(null, Constant.RESPONSE_SEARCH, HttpStatus.OK);
 	}
 	
 }

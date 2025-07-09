@@ -1,15 +1,5 @@
 package com.sample.basic.sample.file.handler;
 
-import org.springframework.stereotype.Component;
-import org.springframework.util.FileCopyUtils;
-
-import com.sample.basic.cmm.exception.CustomException;
-import com.sample.basic.cmm.exception.model.ExceptionCode;
-import com.sample.basic.cmm.security.util.MD5;
-import com.sample.basic.cmm.util.Dateformat;
-import com.sample.basic.cmm.util.Drm;
-import com.sample.basic.sample.file.model.RegisterExcel;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,6 +32,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Component;
+import org.springframework.util.FileCopyUtils;
+
+import com.sample.basic.cmm.exception.CustomException;
+import com.sample.basic.cmm.exception.model.ExceptionCode;
+import com.sample.basic.cmm.security.util.MD5;
+import com.sample.basic.cmm.util.Dateformat;
+import com.sample.basic.cmm.util.Drm;
+import com.sample.basic.sample.file.model.RegisterExcel;
+import com.sample.basic.sample.notice.model.NoticeListGrid;
 
 
 /**
@@ -229,6 +229,80 @@ public class FileHandler {
 		
 		// 결과 반환
 		return filePathAdr;
+	}
+	
+	public void downloadExcel(List<String> headerNameList, List<NoticeListGrid> mapList, HttpServletResponse response) throws Exception {
+		// sheet 생성
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = workbook.createSheet("Sheet1");
+		
+		// style 가져오기
+		XSSFCellStyle headerXssfCellStyle = createHeaderStyle(workbook);
+		XSSFCellStyle bodyXssfCellStyle = createHeaderStyle(workbook);
+		
+		// 데이터 등록
+		Row row = null;
+		Cell cell = null;
+		int rowNum = 1;
+		
+		if(mapList.size() <= 0) {
+			throw new CustomException(ExceptionCode.NONE_RESOURCE);
+		}
+		
+		// header 설정
+		row = sheet.createRow(rowNum++);
+		
+		for(int i=0; i<headerNameList.size(); i++) {
+			cell = row.createCell(i);
+			cell.setCellValue(headerNameList.get(i));
+			cell.setCellStyle(headerXssfCellStyle);
+		}
+		
+		// body 설정
+		for(NoticeListGrid notice :mapList) {
+			row = sheet.createRow(rowNum++);
+			int colNum = 0;
+			
+			for(String header: headerNameList) {
+				cell = row.createCell(colNum++);
+				
+				switch(header) {
+				case "No." :
+					cell.setCellValue(notice.getPwiImtrNo());
+					break;
+				case "제목" :
+					cell.setCellValue(notice.getTitlNm());
+					break;
+				case "내용" :
+					cell.setCellValue(notice.getPwiImtrSbc());
+					break;
+				case "팝업시작일시" :
+					cell.setCellValue(notice.getPopuStrDtm());
+					break;
+				case "팝업종료일시" :
+					cell.setCellValue(notice.getPopuFnhDtm());
+					break;
+				default :
+					cell.setCellValue("");
+					break;
+				}
+				
+			}
+		}
+		
+		// 파일 전송
+		String fileName = "exported_excel_" + System.currentTimeMillis() + ".xlsx";
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+		
+		try (OutputStream out = response.getOutputStream()){
+			workbook.write(out);
+			out.flush();
+		}catch(IOException e) {
+			
+		} finally {
+			workbook.close();
+		}
 	}
 	
 	public XSSFCellStyle createHeaderStyle(Workbook workbook) {

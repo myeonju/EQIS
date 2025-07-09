@@ -30,6 +30,6 @@ public class CustomException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final ExceptionCode exceptionCode = null;
+	private final ExceptionCode exceptionCode = ExceptionCode.ALREADY_ISSUED_NO;
 
 }
