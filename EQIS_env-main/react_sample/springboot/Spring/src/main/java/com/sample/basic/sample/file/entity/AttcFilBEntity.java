@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "q0047_attc_fil_b", schema = "c##khj")
+@Table(name = "q0047_attc_fil_b")
 @IdClass(AttcFilBEntityId.class)
 public class AttcFilBEntity extends BaseEntity {
 	

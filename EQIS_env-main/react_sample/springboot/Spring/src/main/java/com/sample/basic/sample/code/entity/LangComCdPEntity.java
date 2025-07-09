@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "q0047_lang_com_cd_p", schema = "c##khj")
+@Table(name = "q0047_lang_com_cd_p")
 @IdClass(LangComCdPEntityId.class)
 public class LangComCdPEntity extends BaseEntity {
 	

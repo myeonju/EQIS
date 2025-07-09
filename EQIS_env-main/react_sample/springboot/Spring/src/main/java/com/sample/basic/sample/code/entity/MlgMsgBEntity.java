@@ -28,7 +28,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "q0047_mlg_msg_b", schema = "c##khj")
+@Table(name = "q0047_mlg_msg_b")
 @IdClass(MlgMsgBEntityId.class)
 public class MlgMsgBEntity extends BaseEntity {
 	@Id private String mlgCd;

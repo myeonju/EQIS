@@ -25,7 +25,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "q0047_pwi_imtr_b", schema = "c##khj")
+@Table(name = "q0047_pwi_imtr_b")
 public class PwiImtrBEntity extends BaseEntity {
 	
 	@Id private int pwiImtrNo;
