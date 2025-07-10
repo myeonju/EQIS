@@ -48,7 +48,8 @@ public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	private JwtProvider jwtProvider;
 	
-	private static FileHandler fileHandler;
+	@Autowired
+	private FileHandler fileHandler;
 
 	@Override
 	public Page<NoticeListGrid> listGridSearch(NoticeListSearch noticeListSearch) {
@@ -131,7 +132,8 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		// 저장되어 있는 데이터인지 확인
 		PwiImtrBEntity resPwiImtrBEntity = pwiImtrBQueryRepository.findOneOfDetail(pwiImtrB.getPwiImtrNo());
-		if (resPwiImtrBEntity != null) {
+		System.out.println(resPwiImtrBEntity);
+		if (resPwiImtrBEntity == null) {
 			System.out.println("@@등록3");
 			throw new CustomException(ExceptionCode.DUPLICATE_RESOURCE);
 		}

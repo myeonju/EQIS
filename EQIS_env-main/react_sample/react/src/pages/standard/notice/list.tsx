@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
+import reset from 'styled-reset';
 import * as yup from 'yup';
 
 import { _axios } from '@/apis/axios';
@@ -93,6 +94,35 @@ const List = () => {
             }
         },
 
+        clickExcel: async () => {
+            try {
+                // axios 요청 시 responseType을 blob으로 설정하여 파일을 다운로드 받을 수 있도록 설정
+                const response = await axios.post(
+                    '/notice/notice_excel_down.do',
+                    {
+                        params: {
+                            ...getValues(),
+                        },
+                    },
+                    {
+                        responseType: 'blob', // 서버에서 바이너리 데이터를 받을 때 사용
+                    },
+                );
+
+                // 파일 다운로드 처리
+                const blob = response.data;
+                const fileName = response.headers['content-disposition'].split('filename=')[1].replace(/"/g, ''); // 파일 이름을 Content-Disposition 헤더에서 가져옵니다.
+
+                // 브라우저에서 파일 다운로드
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob); // Blob을 URL로 변환
+                link.download = fileName; // 다운로드할 파일 이름 설정
+                link.click(); // 링크 클릭으로 다운로드 시작
+            } catch (error) {
+                console.error('파일 다운로드 실패:', error);
+            }
+        },
+
         pressFieldEnter: async (e: React.KeyboardEvent<HTMLDivElement>) => {
             if (e.key === 'Enter') {
                 handle.clickSearch();
@@ -168,6 +198,9 @@ const List = () => {
                 </Title>
 
                 <ButtonList>
+                    <Button variant="contained" color="vivid" size="small" onClick={handle.clickExcel}>
+                        엑셀
+                    </Button>
                     {/* 추가 */}
                     <Button variant="contained" color="cyan" size="small" onClick={handle.clickAdd}>
                         추가

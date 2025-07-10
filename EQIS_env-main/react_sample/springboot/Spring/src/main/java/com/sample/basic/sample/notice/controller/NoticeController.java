@@ -123,14 +123,10 @@ public class NoticeController {
 	}
 	
 	@PostMapping(Path.DOWNLOAD_EXCEL)
-	public ResponseEntity<Response> downloadExcel(NoticeListSearch noticeListSearch, HttpServletResponse response) {
+	public void downloadExcel(NoticeListSearch noticeListSearch, HttpServletResponse response) {
 		System.out.println("@@데이터 조회: " + noticeListSearch);
 		// 데이터 조회
 		noticeService.excelListSearch(noticeListSearch, response);
-		
-		
-		// 결과 반환
-		return responseHandler.response(null, Constant.RESPONSE_SEARCH, HttpStatus.OK);
 	}
 	
 }

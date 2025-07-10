@@ -277,10 +277,10 @@ public class FileHandler {
 					cell.setCellValue(notice.getPwiImtrSbc());
 					break;
 				case "팝업시작일시" :
-					cell.setCellValue(notice.getPopuStrDtm());
+					cell.setCellValue(notice.getPopuStrDtm() == null ? "" : notice.getPopuStrDtm());
 					break;
 				case "팝업종료일시" :
-					cell.setCellValue(notice.getPopuFnhDtm());
+					cell.setCellValue(notice.getPopuFnhDtm() == null ? "" : notice.getPopuFnhDtm());
 					break;
 				default :
 					cell.setCellValue("");
@@ -290,19 +290,28 @@ public class FileHandler {
 			}
 		}
 		
-		// 파일 전송
-		String fileName = "exported_excel_" + System.currentTimeMillis() + ".xlsx";
-		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-		
-		try (OutputStream out = response.getOutputStream()){
-			workbook.write(out);
-			out.flush();
-		}catch(IOException e) {
-			
-		} finally {
-			workbook.close();
-		}
+	    // 파일 전송
+	    String fileName = "exported_excel_" + System.currentTimeMillis() + ".xlsx";
+	    response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	    response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+	    try (OutputStream out = response.getOutputStream()) {
+	        // 파일을 응답으로 전송하기 전에 상태 코드를 설정합니다.
+	        workbook.write(out);
+	        out.flush();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        // 파일 전송 실패시 응답 상태 코드를 500으로 설정
+	        if (!response.isCommitted()) {
+	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	        }
+	    } finally {
+	        try {
+	            workbook.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
 	}
 	
 	public XSSFCellStyle createHeaderStyle(Workbook workbook) {
